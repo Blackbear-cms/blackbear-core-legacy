@@ -70,6 +70,10 @@ if (!class_exists('files')) {
     public function remove_public_content($name='unknow', $engine) {
       return unlink($_SERVER['DOCUMENT_ROOT'] . '/public/' . $engine . '/' . $name);
     }
+
+    public function link_public_content($name, $engine) {
+      return symlink('data/' . $name, $_SERVER['DOCUMENT_ROOT'] . '/public/' . $engine . '/' . $name);
+    }
   }
 
 }
