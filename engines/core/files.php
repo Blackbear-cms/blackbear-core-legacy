@@ -46,7 +46,7 @@ if (!class_exists('files')) {
       rmdir('data/' . $name);
     }
 
-    public function read_file($file='noname', $extension='no', $ondir) {
+    public function read_data($file='noname', $extension='no', $ondir) {
       if (isset($ondir)) {
         return file_get_contents('data/' . $ondir . '/' . $file . '.' . $extension);
       } else {
@@ -60,6 +60,21 @@ if (!class_exists('files')) {
         return file_put_contents('data/' . $ondir . '/' . $file . '.' . $extension, $data);
       } else {
         return file_put_contents('data/' . $file . '.' . $extension, $data);
+      }
+    }
+
+    public function factory_data($zip_name) {
+      $zip = new ZipArchive;
+      if ($zip->open($zip_name) == true) {
+        $zip->extractTo('data/');
+        $zip->close();
+
+        return true;
+      } else {
+        global $fuel;
+        $fuel->error('Zip cant openend');
+
+        return false;
       }
     }
 
