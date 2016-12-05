@@ -7,7 +7,14 @@ $found = false;
 foreach ($pages as $page) {
   // TODO: mejorar con un regex
 if ($page[0] == 'true') {
-  if (preg_match('/'. $page[1] .'/i', $url['host'])) {
+  if ($page[1] == 'all') {
+    if (preg_match('/'. $page[2] .'/i', $url['path'])) {
+      init($page[3], $page[4], $url);
+
+      $found = true;
+      break;
+    }
+  } elseif (preg_match('/'. $page[1] .'/i', $url['host'])) {
     if (preg_match('/'. $page[2] .'/i', $url['path'])) {
       init($page[3], $page[4], $url);
 
@@ -38,8 +45,10 @@ function init($render, $id, $url) {
   include 'engines/core/core.php';
   include 'engines/core/files.php';
   global $fuel;
+  global $db;
 
   $fuel = new core($render);
+  $db = new db();
   $render = new $render($url, $id);
 }
 
