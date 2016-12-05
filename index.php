@@ -44,11 +44,22 @@ function init($render, $id, $url) {
   include 'renders/' . $render . '/init.php';
   include 'engines/core/core.php';
   include 'engines/core/files.php';
+  include 'engines/core/websockets.php';
   global $fuel;
   global $db;
+  global $websockets;
 
-  $fuel = new core($render);
-  $db = new db();
+  if ($fuel == null) {
+    $fuel = new core($render);
+  }
+
+  if ($websockets == null) {
+    $websockets = new websockets();
+  }
+
+  if ($db == null) {
+    $db = new fb();
+  }
   $render = new $render($url, $id);
 }
 
